@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block title %}Create Rental - RentalPro{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 border-0">
+                <h4 class="fw-bold mb-0 text-center">Process New Rental</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Create Rental Record</button>
+                        <a href="{% url 'vehicle_list' %}" class="btn btn-light">Back to Vehicles</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const vehicleId = urlParams.get('vehicle');
+        if (vehicleId) {
+            const vehicleSelect = document.querySelector('select[name="vehicle"]');
+            if (vehicleSelect) {
+                vehicleSelect.value = vehicleId;
+            }
+        }
+    });
+</script>
+{% endblock %}

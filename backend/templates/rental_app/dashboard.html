@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - RentalPro{% endblock %}
+
+{% block content %}
+<div class="row g-4 mb-5">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 stats-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-car-front fs-3 text-primary"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Total Vehicles</h6>
+                        <h3 class="fw-bold mb-0">{{ vehicles_count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 stats-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-check-circle fs-3 text-success"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Available</h6>
+                        <h3 class="fw-bold mb-0">{{ available_count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 stats-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-hourglass-split fs-3 text-warning"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Rented</h6>
+                        <h3 class="fw-bold mb-0">{{ rented_count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm h-100 stats-card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-info bg-opacity-10 p-3 rounded-circle me-3">
+                        <i class="bi bi-people fs-3 text-info"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted mb-0">Customers</h6>
+                        <h3 class="fw-bold mb-0">{{ customers_count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 border-0">
+                <h5 class="fw-bold mb-0">Recent Rentals</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Vehicle</th>
+                                <th>Customer</th>
+                                <th>Rent Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for rental in recent_rentals %}
+                            <tr>
+                                <td class="ps-4">
+                                    <strong>{{ rental.vehicle.name }}</strong>
+                                </td>
+                                <td>{{ rental.customer.name }}</td>
+                                <td>{{ rental.rent_date }}</td>
+                                <td>
+                                    {% if rental.return_date %}
+                                        <span class="badge bg-success-subtle text-success border border-success-subtle">Returned</span>
+                                    {% else %}
+                                        <span class="badge bg-warning-subtle text-warning border border-warning-subtle">Active</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted italic">No recent rentals found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm bg-primary text-white overflow-hidden">
+            <div class="card-body p-4 position-relative z-1">
+                <h5 class="fw-bold mb-3">Quick Actions</h5>
+                <div class="d-grid gap-2">
+                    <a href="{% url 'vehicle_add' %}" class="btn btn-light text-primary text-start">
+                        <i class="bi bi-plus-lg me-2"></i> Add New Vehicle
+                    </a>
+                    <a href="{% url 'customer_add' %}" class="btn btn-light text-primary text-start">
+                        <i class="bi bi-person-plus me-2"></i> Add New Customer
+                    </a>
+                    <a href="{% url 'rental_add' %}" class="btn btn-light text-primary text-start">
+                        <i class="bi bi-key me-2"></i> Create Rental
+                    </a>
+                </div>
+            </div>
+            <i class="bi bi-speedometer2 position-absolute end-0 bottom-0 mb-n4 me-n4 fs-1 opacity-25" style="font-size: 10rem !important;"></i>
+        </div>
+    </div>
+</div>
+{% endblock %}
